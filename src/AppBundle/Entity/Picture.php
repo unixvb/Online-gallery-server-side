@@ -47,6 +47,27 @@ class Picture
     private $imageName;
 
     /**
+     * @return mixed
+     */
+    public function getImageSize()
+    {
+        return $this->imageSize;
+    }
+
+    /**
+     * @param mixed $imageSize
+     */
+    public function setImageSize($imageSize)
+    {
+        $this->imageSize = $imageSize;
+    }
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $imageSize;
+
+    /**
      * @ORM\Column(type="string", length=200, nullable=true)
      */
     private $comment;
@@ -91,6 +112,7 @@ class Picture
 
         if ($imageFile) {
             $this->postedAt = new \DateTimeImmutable();
+            $this->setImageSize($this->imageFile->getSize());
         }
         return $this;
     }
