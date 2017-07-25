@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="container">
+        <div class="row">
+            <h1>
+                <span>Picture creation</span>
+                <a href="{{ path('_index') }}" class="btn btn-default pull-right d-inline-block">Back to the list</a>
+            </h1>
+            <br>
+
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+
+            <button type="submit" class="btn btn-primary d-inline">Create</button>
+            {{ form_end(form) }}
+
+        </div>
+    </div>
+{% endblock %}

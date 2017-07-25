@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="container">
+        <div class="row">
+            <h1>
+                <span>Gallery</span>
+                <a href="{{ path('_new') }}" class="btn btn-default pull-right d-inline-block">Create a new picture</a>
+            </h1>
+            <br>
+            {% for p in pictures %}
+                <div class="col-md-4">
+                    <div class="thumbnail">
+                        <a href="{{ path('_show', {
+                            'id': p.id
+                        }) }}">
+                            <img src="{{ image_path ~ '/' ~ p.imageName }}" alt="Lights" style="width:100%">
+                            <div class="caption">
+                                <p>{{ p.comment }}</p>
+                                <p align="right">{{ p.postedAt|date('Y-m-d H:i:s') }}</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+    </div>
+{% endblock %}
