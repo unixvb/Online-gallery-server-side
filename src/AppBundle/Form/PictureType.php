@@ -35,7 +35,7 @@ class PictureType extends AbstractType
 
 
     }
-    
+
     /**
      * {@inheritdoc}
      */

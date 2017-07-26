@@ -23,12 +23,25 @@ class PictureController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-
         $pictures = $em->getRepository('AppBundle:Picture')->findAll();
 
         return $this->render('picture/index.html.twig', array(
             'pictures' => $pictures,
         ));
+        /** //send Json Response to client
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery(
+        'SELECT p
+        FROM AppBundle:Picture p'
+        );
+        $pictures = $query->getArrayResult();
+        $response = new JsonResponse($pictures);
+
+        $response->headers->set('Content-Type', 'application/json');
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+        return $response;
+         **/
+
     }
 
     /**
@@ -124,6 +137,6 @@ class PictureController extends Controller
             ->setAction($this->generateUrl('_delete', array('id' => $picture->getId(), 'comment' => $picture->getComment())))
             ->setMethod('DELETE')
             ->getForm()
-        ;
+            ;
     }
 }
