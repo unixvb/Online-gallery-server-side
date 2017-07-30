@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+    {% extends 'base.html.twig' %}
 
 {% block body %}
     <div class="container">
@@ -16,7 +16,7 @@
             <div class="col-md-6 form-group">
                 {{ form_start(edit_form) }}
                 {{ form_widget(edit_form) }}
-                <input type="submit" class="btn btn-info" value="Edit" />
+                <input type="submit" class="btn btn-info" value="Save changes" />
                 {{ form_end(edit_form) }}
 
                 <p align="right">{{ picture.postedAt|date('Y-m-d H:i:s') }}</p>

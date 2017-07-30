@@ -83,6 +83,8 @@ class PictureController extends Controller
         $picture = $em->getRepository('AppBundle:Picture')->find($id);
         // 404
         if(!$picture)
+
+            return $this->redirectToRoute('_index');
             throw $this->createNotFoundException('Picture not found');
 
         $deleteForm = $this->createDeleteForm($picture);

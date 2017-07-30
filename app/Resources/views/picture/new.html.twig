@@ -19,3 +19,24 @@
         </div>
     </div>
 {% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(document).ready(function() {
+            $(':input[type="submit"]').prop('disabled', true);
+        });
+
+
+        $('#appbundle_picture_imageFile_file').bind('change', function() {
+
+            var sFileName = this.files[0].name;
+            var sFileExtension = sFileName.split('.')[sFileName.split('.').length - 1].toLowerCase();
+            var iFileSize = this.files[0].size;
+
+            if (!(sFileExtension === "jpg" || sFileExtension === "jpeg" || sFileExtension === "png") || iFileSize > 1048576)
+                $(':input[type="submit"]').prop('disabled', true);
+            else
+                $(':input[type="submit"]').prop('disabled', false);
+        });
+    </script>
+{% endblock %}

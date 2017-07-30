@@ -9,22 +9,98 @@
                 <a href="{{ path('_new') }}" class="btn btn-default pull-right d-inline-block">Create a new picture</a>
             </h1>
             <br>
-            {% for p in pictures %}
-                <div class="col-md-4">
-                    <div class="thumbnail">
-                        <a href="{{ path('_show', {
-                            'id': p.id
-                        }) }}">
-                            <img src="{{ image_path ~ '/' ~ p.imageName }}" alt="Lights" style="width:100%">
-                            <div class="caption">
-                                <p>{{ p.comment }}</p>
-                                <p align="right">{{ p.postedAt|date('Y-m-d H:i:s') }}</p>
-                            </div>
-                        </a>
+            <div class="col-md-12">
+                <p>
+                    <span>Sort by</span>
+                    <a href="#" id="sortByDate" class="btn btn-default btn-xs">date</a>
+                    <a href="#" id="sortBySize" class="btn btn-default btn-xs">size</a>
+                </p>
+            </div>
+            <div id="gallery">
+                {% for p in pictures %}
+                    <div class="col-md-4 picture">
+                        <div class="thumbnail">
+                            <a href="{{ path('_show', {
+                                'id': p.id
+                            }) }}">
+                                <img src="{{ image_path ~ '/' ~ p.imageName }}" alt="Lights" style="width:100%">
+                                <div class="caption">
+                                    <p>{{ p.comment }}</p>
+                                    <p align="right" class="time">{{ p.postedAt|date('Y-m-d H:i:s') }}</p>
+                                    <p hidden class="size">{{ p.imageSize }}</p>
+                                </div>
+                            </a>
+                        </div>
                     </div>
-                </div>
-            {% endfor %}
 
+            </div>
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        (function( $ ) {
+            order = "";
+            $.sortBy = function( elements, field) {
+                if(order == "DESC")
+                    order = "ASC";
+                else
+                    order = "DESC";
+                var arr = [];
+                elements.each(function() {
+                    var obj = {},
+                        $el = $( this ),
+                        time = $el.find( "."+field ).text(),
+                        date = new Date( $.trim( time ) ),
+                        timestamp = date.getTime();
+
+                    obj.html = $el[0].outerHTML;
+                    obj.time = timestamp;
+
+                    arr.push( obj );
+                });
+
+                var sorted = arr.sort(function( a, b ) {
+
+                    if( order == "ASC" ) {
+                        return a.time > b.time;
+                    } else {
+                        return b.time > a.time;
+                    }
+
+                });
+                return sorted;
+            };
+
+            $(function() {
+                var $dateBtn = $( "#sortByDate" ),
+                    $sizeBtn = $( "#sortBySize" ),
+                    $content = $( "#gallery" ),
+                    $elements = $( ".picture" );
+
+                $dateBtn.click(function() {
+                    var elements = $.sortBy( $elements, "time");
+                    var html = "";
+                    for( var i = 0; i < elements.length; ++i ) {
+                        html += elements[i].html;
+                    }
+                    $content[0].innerHTML = html;
+                    return false;
+
+                });
+
+                $sizeBtn.click(function() {
+                    var elements = $.sortBy($elements, "size" );
+                    var html = "";
+                    for( var i = 0; i < elements.length; ++i ) {
+                        html += elements[i].html;
+                    }
+                    $content[0].innerHTML = html;
+                    return false;
+                });
+            });
+
+        })( jQuery );
+    </script>
 {% endblock %}
